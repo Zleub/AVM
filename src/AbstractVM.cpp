@@ -6,15 +6,49 @@
 //  sdddddddddddddddddddddddds   @Last modified by: adebray
 //  sdddddddddddddddddddddddds
 //  :ddddddddddhyyddddddddddd:   @Created: 2017-05-02T12:56:06+02:00
-//   odddddddd/`:-`sdddddddds    @Modified: 2017-05-02T23:31:12+02:00
+//   odddddddd/`:-`sdddddddds    @Modified: 2017-05-03T18:37:58+02:00
 //    +ddddddh`+dh +dddddddo
 //     -sdddddh///sdddddds-
 //       .+ydddddddddhs/.
 //           .-::::-`
 
+#include <Color.h>
 #include <AbstractVM.h>
 
-AbstractVM::AbstractVM() {}
+AbstractVM::AbstractVM(char *arg) {
+	parser = new Parser("AVM.gmr");
+
+	std::cout << "---- Parser ----" << std::endl
+		<< parser->toString();
+
+	if (arg) {
+		std::cout << "file: " << arg << std::endl;
+
+		std::string line;
+		std::ifstream f(arg);
+		if (f.is_open()) {
+			while (!f.eof()) {
+				getline(f, line);
+				parser->process(line);
+			}
+			f.close();
+			if ( 0 != f.eof() ) {
+				std::cout << Color::start(GREEN) << "File done" << Color::end() << std::endl;
+			}
+		}
+		else {
+			std::cout << Color::start(RED) << "File error" << Color::end() << std::endl;
+		}
+	}
+	else {
+		std::string s;
+
+		while (s != ";;") {
+			getline(std::cin, s);
+			parser->process(s);
+		}
+	}
+}
 AbstractVM::~AbstractVM() {}
 
 IOperand const * AbstractVM::createOperand( eOperandType type, std::string const & value ) const {

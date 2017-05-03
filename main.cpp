@@ -6,7 +6,7 @@
 //  sdddddddddddddddddddddddds   @Last modified by: adebray
 //  sdddddddddddddddddddddddds
 //  :ddddddddddhyyddddddddddd:   @Created: 2017-05-02T12:17:02+02:00
-//   odddddddd/`:-`sdddddddds    @Modified: 2017-05-02T23:36:50+02:00
+//   odddddddd/`:-`sdddddddds    @Modified: 2017-05-03T18:28:08+02:00
 //    +ddddddh`+dh +dddddddo
 //     -sdddddh///sdddddds-
 //       .+ydddddddddhs/.
@@ -17,18 +17,6 @@
 int main(int ac, char *av[])
 {
 	(void)ac;
-	(void)av;
-
-	AbstractVM avm;
-
-	avm.push(avm.createOperand(Int8, "0"));
-	avm.push(avm.createOperand(Float, "0"));
-	avm.push(avm.createOperand(Float, "0"));
-
-	avm.do_operation(ADD);
-	avm.dump();
-	avm.do_operation(MOD);
-	avm.dump();
-
+	AbstractVM avm(av[1]);
 	return (0);
 }
