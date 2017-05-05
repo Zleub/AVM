@@ -1,8 +1,7 @@
-S := INSTR [SEP INSTR]* #
+S := INSTR   [SEP INSTR]* #
 
 INSTR :=
-push VALUE
-| pop
+push VALUE| pop
 | dump
 | assert VALUE
 | add
