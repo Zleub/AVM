@@ -6,11 +6,14 @@
 //  sdddddddddddddddddddddddds   @Last modified by: adebray
 //  sdddddddddddddddddddddddds
 //  :ddddddddddhyyddddddddddd:   @Created: 2017-05-03T17:11:01+02:00
-//   odddddddd/`:-`sdddddddds    @Modified: 2017-05-06T17:40:21+02:00
+//   odddddddd/`:-`sdddddddds    @Modified: 2017-05-07T16:18:16+02:00
 //    +ddddddh`+dh +dddddddo
 //     -sdddddh///sdddddds-
 //       .+ydddddddddhs/.
 //           .-::::-`
+
+#ifndef COLOR_H
+#define COLOR_H
 
 #include <string>
 #include <sstream>
@@ -40,3 +43,5 @@ public:
 	static std::string reverse(void);
 	static std::string hidden(void);
 };
+
+#endif
