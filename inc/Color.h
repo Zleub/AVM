@@ -6,7 +6,7 @@
 //  sdddddddddddddddddddddddds   @Last modified by: adebray
 //  sdddddddddddddddddddddddds
 //  :ddddddddddhyyddddddddddd:   @Created: 2017-05-03T17:11:01+02:00
-//   odddddddd/`:-`sdddddddds    @Modified: 2017-05-03T18:37:06+02:00
+//   odddddddd/`:-`sdddddddds    @Modified: 2017-05-06T17:40:21+02:00
 //    +ddddddh`+dh +dddddddo
 //     -sdddddh///sdddddds-
 //       .+ydddddddddhs/.
@@ -22,7 +22,8 @@ enum Colors {
 	YELLOW,
 	BLUE,
 	MAGENTA,
-	CYAN
+	CYAN,
+	ORANGE = 202
 };
 
 class Color {
@@ -32,4 +33,10 @@ public:
 
 	static std::string start(Colors i);
 	static std::string end(void);
+	static std::string bold(void);
+	static std::string dim(void);
+	static std::string underline(void);
+	static std::string blink(void);
+	static std::string reverse(void);
+	static std::string hidden(void);
 };
