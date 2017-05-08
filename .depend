@@ -1,0 +1,8 @@
+main.o: main.cpp inc/AbstractVM.h inc/Operand.h inc/IOperand.h \
+  inc/Parser.h inc/Automaton.h inc/Color.h
+src/AbstractVM.o: src/AbstractVM.cpp inc/Color.h inc/AbstractVM.h \
+  inc/Operand.h inc/IOperand.h inc/Parser.h inc/Automaton.h
+src/Automaton.o: src/Automaton.cpp inc/Automaton.h inc/Color.h
+src/Color.o: src/Color.cpp inc/Color.h
+src/Lexer.o: src/Lexer.cpp
+src/Parser.o: src/Parser.cpp inc/Color.h inc/Parser.h inc/Automaton.h

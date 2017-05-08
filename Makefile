@@ -2,24 +2,32 @@
 # @Date:   2017-05-02T11:56:38+02:00
 # @Email:  adebray@student.42.fr
 # @Last modified by:   adebray
-# @Last modified time: 2017-05-07T18:00:32+02:00
+# @Last modified time: 2017-05-08T17:36:57+02:00
 
 NAME = avm
-SRC = $(shell find ./src -name "*.cpp")
+SRC = $(shell find . -name "*.cpp")
 OBJ = $(subst .cpp,.o,$(SRC))
 
 CXX = clang++
 CXXFLAGS = -Iinc -Wall -Wextra -Werror -std=c++11 -g -fsanitize=address
 
-all: $(NAME)
+XX = $(shell echo test)
 
-$(NAME): $(OBJ) main.cpp
-	@echo $^" -> "$@
-	@$(CXX) $(CXXFLAGS) -o $(NAME) $^
+all: depend $(NAME)
+
+depend: $(SRC) main.cpp
+	@ rm -f ./.depend
+	@ $(foreach var, $^, $(CC) $(CXXFLAGS) -MT $(subst .cpp,.o,$(var)) -MM $(var) >> ./.depend;)
 
 %.o:%.cpp
 	@echo $<" -> "$@
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
+
+include .depend
+
+$(NAME): $(OBJ)
+	@echo $^" -> "$@
+	@$(CXX) $(CXXFLAGS) -o $(NAME) $^
 
 clean:
 	rm -rf main.o
@@ -30,4 +38,5 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all re clean fclean
+
+.PHONY: all re clean fclean depend
