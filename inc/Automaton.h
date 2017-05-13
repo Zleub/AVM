@@ -6,7 +6,7 @@
 //  sdddddddddddddddddddddddds   @Last modified by: adebray
 //  sdddddddddddddddddddddddds
 //  :ddddddddddhyyddddddddddd:   @Created: 2017-05-07T16:07:15+02:00
-//   odddddddd/`:-`sdddddddds    @Modified: 2017-05-07T16:31:17+02:00
+//   odddddddd/`:-`sdddddddds    @Modified: 2017-05-09T19:26:49+02:00
 //    +ddddddh`+dh +dddddddo
 //     -sdddddh///sdddddds-
 //       .+ydddddddddhs/.
@@ -23,13 +23,14 @@
 
 class ACallable {
 public:
-	ACallable * truthy;
-	ACallable * falsy;
+	ACallable * truthy = NULL;
+	ACallable * falsy = NULL;
 
 	virtual ~ACallable(void) {};
 
 	virtual int operator()(std::string) = 0;
 	virtual std::string toString(void) = 0;
+	virtual void setString(std::string) = 0;
 };
 
 class Automaton : public ACallable {
@@ -46,6 +47,7 @@ public:
 		virtual ~State();
 
 		std::string toString(void);
+		void setString(std::string);
 	};
 
 	Automaton(std::string="unnamed");
@@ -64,6 +66,7 @@ public:
 	int operator()(std::string);
 	ACallable * transition(std::string *, ACallable *);
 	std::string toString(void);
+	void setString(std::string s);
 };
 
 #endif

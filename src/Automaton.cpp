@@ -6,7 +6,7 @@
 //  sdddddddddddddddddddddddds   @Last modified by: adebray
 //  sdddddddddddddddddddddddds
 //  :ddddddddddhyyddddddddddd:   @Created: 2017-05-07T16:06:52+02:00
-//   odddddddd/`:-`sdddddddds    @Modified: 2017-05-07T16:30:54+02:00
+//   odddddddd/`:-`sdddddddds    @Modified: 2017-05-09T19:23:56+02:00
 //    +ddddddh`+dh +dddddddo
 //     -sdddddh///sdddddds-
 //       .+ydddddddddhs/.
@@ -14,7 +14,7 @@
 
 #include <Automaton.h>
 
-Automaton::Automaton(std::string name) : name(name) {};
+Automaton::Automaton(std::string name) : name(name), start(NULL) {};
 Automaton::~Automaton() {};
 
 int Automaton::operator()(std::string s) {
@@ -92,7 +92,32 @@ ACallable * Automaton::transition(std::string * s, ACallable * current)
 }
 
 std::string Automaton::toString(void) {
-	return name;
+	std::stringstream ss;
+
+	ss << Color::start(CYAN) << name << Color::end() << std::endl;
+	if (start)
+		ss << Color::start(GREEN) << "start: " << start->toString() << Color::end() << std::endl;
+	else
+		ss << Color::start(RED) << "No start !" << Color::end() << std::endl;
+	std::for_each(states.begin(), states.end(), [&](ACallable * s) {
+		// ss << "\t" << "    " << " T " << " F " << std::endl;
+		ss << "\t" << s->toString() << " ? " ;
+		if (s->truthy)
+			ss << s->truthy->toString();
+		else
+			ss << "NULL";
+		ss << " : ";
+		if (s->falsy)
+			ss << s->falsy->toString();
+		else
+			ss << "NULL";
+		ss << std::endl;
+	});
+	return ss.str();
+}
+
+void Automaton::setString(std::string s) {
+	name = s;
 }
 
 Automaton::State::State(std::string l) : l(l) {}
@@ -100,4 +125,8 @@ Automaton::State::~State() {}
 
 std::string Automaton::State::toString(void) {
 	return l;
+}
+
+void Automaton::State::setString(std::string s) {
+	l = s;
 }
