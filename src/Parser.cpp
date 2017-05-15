@@ -6,7 +6,7 @@
 //  sdddddddddddddddddddddddds   @Last modified by: adebray
 //  sdddddddddddddddddddddddds
 //  :ddddddddddhyyddddddddddd:   @Created: 2017-05-03T15:26:42+02:00
-//   odddddddd/`:-`sdddddddds    @Modified: 2017-05-09T19:32:50+02:00
+//   odddddddd/`:-`sdddddddds    @Modified: 2017-05-15T01:58:57+02:00
 //    +ddddddh`+dh +dddddddo
 //     -sdddddh///sdddddds-
 //       .+ydddddddddhs/.
@@ -117,7 +117,7 @@ void Parser::load(std::string rule) {
 				A->states.push_back( _a );
 			}
 			else {
-				if (a->truthy->toString() == ";")
+				if (a->truthy && a->truthy->toString() == ";")
 					a->truthy = NULL;
 				A->states.push_back( a );
 			}
@@ -159,13 +159,19 @@ void Parser::load(std::string rule) {
 			std::for_each(A->states.begin(), A->states.end(), [&](ACallable * tmp) {
 				if (tmp->truthy == a && _a != NULL) {
 					tmp->truthy = _a;
-				if (tmp->truthy == NULL)
-					A->accept_states.push_back(tmp);
 				}
 			});
 		});
 		acc = NULL;
 	});
+
+	std::for_each(A->states.begin(), A->states.end(), [&](ACallable * tmp) {
+		if (tmp->truthy == NULL) {
+			std::cout << tmp->toString() << std::endl;
+			A->accept_states.push_back(tmp);
+		}
+	});
+
 	A->start = A->states[0];
 
 	std::for_each(A->states.begin(), A->states.end(), [&](ACallable * tmp) {
@@ -178,6 +184,7 @@ void Parser::load(std::string rule) {
 	(*A)("1");
 	(*A)("0");
 	(*A)("01");
+	(*A)("12");
 	(*A)("14");
 }
 

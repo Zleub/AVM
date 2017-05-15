@@ -6,7 +6,7 @@
 //  sdddddddddddddddddddddddds   @Last modified by: adebray
 //  sdddddddddddddddddddddddds
 //  :ddddddddddhyyddddddddddd:   @Created: 2017-05-07T16:06:52+02:00
-//   odddddddd/`:-`sdddddddds    @Modified: 2017-05-09T19:23:56+02:00
+//   odddddddd/`:-`sdddddddds    @Modified: 2017-05-15T02:03:11+02:00
 //    +ddddddh`+dh +dddddddo
 //     -sdddddh///sdddddds-
 //       .+ydddddddddhs/.
@@ -56,9 +56,15 @@ int Automaton::operator()(std::string s) {
 			padding << " " ;
 		}
 
+		std::stringstream ss;
 		ACallable * out = prev == NULL ? start : prev->truthy;
 
-		std::stringstream ss;
+		if (index < input.length()) {
+			ss << padding.str() << Color::bold() << Color::start(ORANGE) << "^" << Color::end() << std::endl;
+			std::cout << ss.str() ;
+			return 0;
+		}
+
 		ss << padding.str() << Color::bold() << Color::start(ORANGE) << "^" << Color::end() << " expected: " ;
 		ss << Color::underline() << out->toString() << Color::end() << std::endl;
 		while (out) {
@@ -96,11 +102,12 @@ std::string Automaton::toString(void) {
 
 	ss << Color::start(CYAN) << name << Color::end() << std::endl;
 	if (start)
-		ss << Color::start(GREEN) << "start: " << start->toString() << Color::end() << std::endl;
+		ss << Color::start(GREEN) << "start:\t" << Color::end() << start->toString() << std::endl;
 	else
 		ss << Color::start(RED) << "No start !" << Color::end() << std::endl;
 	std::for_each(states.begin(), states.end(), [&](ACallable * s) {
-		// ss << "\t" << "    " << " T " << " F " << std::endl;
+		ss << (std::find(accept_states.begin(), accept_states.end(), s) == accept_states.end() ? "X" : "√") ;
+
 		ss << "\t" << s->toString() << " ? " ;
 		if (s->truthy)
 			ss << s->truthy->toString();
