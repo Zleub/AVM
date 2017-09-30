@@ -6,7 +6,7 @@
 //  sdddddddddddddddddddddddds   @Last modified by: adebray
 //  sdddddddddddddddddddddddds
 //  :ddddddddddhyyddddddddddd:   @Created: 2017-05-03T15:26:42+02:00
-//   odddddddd/`:-`sdddddddds    @Modified: 2017-05-15T01:58:57+02:00
+//   odddddddd/`:-`sdddddddds    @Modified: 2017-05-17T20:42:59+02:00
 //    +ddddddh`+dh +dddddddo
 //     -sdddddh///sdddddds-
 //       .+ydddddddddhs/.
@@ -77,7 +77,7 @@ void Parser::load(std::string rule) {
 	std::cout << Color::start(MAGENTA) << rule << Color::end() << std::endl;
 
 	rule = std::regex_replace(rule, std::regex("\\s*\\|\\s*"), "|");
-	std::cout << rule << std::endl;
+	std::cout << rule << std::endl << std::endl;
 
 	std::vector<std::string> tmp = tokenize(rule, ":=");
 	Automaton *A = new Automaton(tmp[0]);
@@ -92,8 +92,10 @@ void Parser::load(std::string rule) {
 		ACallable * acc = NULL;
 		std::for_each(tmp.begin(), tmp.end(), [&](std::string s){
 			ACallable * a = new State(s);
-			if (acc)
+			if (acc) {
+				std::cout << acc->toString() << " ? " << a->toString() << std::endl;
 				acc->truthy = a;
+			}
 			acc = a;
 			A->states.push_back( a );
 		});
@@ -111,8 +113,10 @@ void Parser::load(std::string rule) {
 		std::for_each(tmp.begin(), tmp.end(), [&](std::string s){
 			if (a->toString() != s) {
 				ACallable * _a = new State(s);
-				if (acc)
+				if (acc) {
+					std::cout << acc->toString() << " ? " << _a->toString() << std::endl;
 					acc->truthy = _a;
+				}
 				acc = _a;
 				A->states.push_back( _a );
 			}
@@ -140,13 +144,9 @@ void Parser::load(std::string rule) {
 					acc->truthy = a->truthy;
 				if (acc && acc->truthy != NULL)
 					_a->truthy = acc->truthy;
-				// if (acc)
-				// 	acc->truthy = _a;
-				//
+
 				if (acc)
 					acc->falsy = _a;
-				// if (acc && acc->falsy != NULL)
-				// 	acc->falsy = a->falsy;
 
 				acc = _a;
 				A->states.push_back( _a );
@@ -167,7 +167,7 @@ void Parser::load(std::string rule) {
 
 	std::for_each(A->states.begin(), A->states.end(), [&](ACallable * tmp) {
 		if (tmp->truthy == NULL) {
-			std::cout << tmp->toString() << std::endl;
+			// std::cout << tmp->toString() << std::endl;
 			A->accept_states.push_back(tmp);
 		}
 	});
@@ -178,7 +178,7 @@ void Parser::load(std::string rule) {
 		tmp->setString(std::regex_replace(tmp->toString(), std::regex("\\\""), ""));
 	});
 
-	std::cout << "/ \\" << std::endl;
+	std::cout << std::endl;
 	std::cout << A->toString() << std::endl;
 
 	(*A)("1");
