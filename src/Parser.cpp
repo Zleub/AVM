@@ -1,19 +1,5 @@
-//           `--::-.`
-//       ./shddddddddhs+.
-//     :yddddddddddddddddy:
-//   `sdddddddddddddddddddds`
-//  /ddddy:oddddddddds:sddddd/   @By: Debray Arnaud <adebray> - adebray@student.42.fr
-//  sdddddddddddddddddddddddds   @Last modified by: adebray
-//  sdddddddddddddddddddddddds
-//  :ddddddddddhyyddddddddddd:   @Created: 2017-05-03T15:26:42+02:00
-//   odddddddd/`:-`sdddddddds    @Modified: 2017-05-17T20:42:59+02:00
-//    +ddddddh`+dh +dddddddo
-//     -sdddddh///sdddddds-
-//       .+ydddddddddhs/.
-//           .-::::-`
-
 #include <Color.h>
-#include <Parser.h>
+#include <Automaton.h>
 
 Parser::Parser(void) {
 	std::string line;
@@ -43,9 +29,11 @@ void Parser::load(std::string rule) {
 
 	if (m.empty())
 		std::cout << "No match" << std::endl;
-	else {
-		for (auto x: m)
-			std::cout << x << std::endl;
+	else if (m.size() == '3') {
+		std::string name = m[1];
+		std::string expr = m[2];
+
+		automatonMap.insert( std::pair<std::string, std::vector<Automaton*>>(name, new std::vector<Automaton *>()) );
 	}
 
 }

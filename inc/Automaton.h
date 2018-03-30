@@ -2,10 +2,12 @@
 #define AUTOMATON_H
 
 #include <iostream>
+#include <sstream>
+#include <fstream>
 #include <string>
-#include <map>
-#include <vector>
 #include <regex>
+#include <vector>
+#include <map>
 
 #include <Color.h>
 
