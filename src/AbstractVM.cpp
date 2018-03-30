@@ -1,54 +1,41 @@
-//           `--::-.`
-//       ./shddddddddhs+.
-//     :yddddddddddddddddy:
-//   `sdddddddddddddddddddds`
-//  /ddddy:oddddddddds:sddddd/   @By: Debray Arnaud <zleub> - adebray@student.42.fr
-//  sdddddddddddddddddddddddds   @Last modified by: adebray
-//  sdddddddddddddddddddddddds
-//  :ddddddddddhyyddddddddddd:   @Created: 2017-05-02T12:56:06+02:00
-//   odddddddd/`:-`sdddddddds    @Modified: 2017-05-07T16:41:01+02:00
-//    +ddddddh`+dh +dddddddo
-//     -sdddddh///sdddddds-
-//       .+ydddddddddhs/.
-//           .-::::-`
-
 #include <Color.h>
 #include <AbstractVM.h>
+// #include <Automaton.h>
 
 AbstractVM::AbstractVM(char *arg) {
 	parser = new Parser();
+	 // automaton = new Automaton("Hello");
 
 	(void)arg;
-	// std::cout << "---- Parser ----" << std::endl
-	// 	<< parser->toString();
-	//
-	// if (arg) {
-	// 	std::cout << "file: " << arg << std::endl;
-	//
-	// 	std::string line;
-	// 	std::ifstream f(arg);
-	// 	if (f.is_open()) {
-	// 		while (!f.eof()) {
-	// 			getline(f, line);
-	// 			(*parser)(line);
-	// 		}
-	// 		f.close();
-	// 		if ( 0 != f.eof() ) {
-	// 			std::cout << Color::start(GREEN) << "File done" << Color::end() << std::endl;
-	// 		}
-	// 	}
-	// 	else {
-	// 		std::cout << Color::start(RED) << "File error" << Color::end() << std::endl;
-	// 	}
-	// }
-	// else {
-	// 	std::string s;
-	//
-	// 	while (s != ";;") {
-	// 		getline(std::cin, s);
-	// 		(*parser)(s);
-	// 	}
-	// }
+	std::cout << "---- Parser ----" << std::endl << parser->toString() << std::endl;
+
+	if (arg) {
+		std::cout << "file: " << arg << std::endl;
+
+		std::string line;
+		std::ifstream f(arg);
+		if (f.is_open()) {
+			while (!f.eof()) {
+				getline(f, line);
+				(*parser)(line);
+			}
+			f.close();
+			if ( 0 != f.eof() ) {
+				std::cout << Color::start(GREEN) << "File done" << Color::end() << std::endl;
+			}
+		}
+		else {
+			std::cout << Color::start(RED) << "File error" << Color::end() << std::endl;
+		}
+	}
+	else {
+		std::string s;
+
+		while (s != ";;") {
+			getline(std::cin, s);
+			// (*parser)(s);
+		}
+	}
 }
 AbstractVM::~AbstractVM() {}
 

@@ -15,6 +15,8 @@ XX = $(shell echo test)
 
 all: depend $(NAME)
 
+include .depend
+
 depend: $(SRC) main.cpp
 	@ rm -f ./.depend
 	@ $(foreach var, $^, $(CC) $(CXXFLAGS) -MT $(subst .cpp,.o,$(var)) -MM $(var) >> ./.depend;)
@@ -22,8 +24,6 @@ depend: $(SRC) main.cpp
 %.o:%.cpp
 	@echo $<" -> "$@
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
-
-include .depend
 
 $(NAME): $(OBJ)
 	@echo $^" -> "$@

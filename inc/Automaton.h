@@ -1,23 +1,11 @@
-//           `--::-.`
-//       ./shddddddddhs+.
-//     :yddddddddddddddddy:
-//   `sdddddddddddddddddddds`
-//  /ddddy:oddddddddds:sddddd/   @By: Debray Arnaud <adebray> - adebray@student.42.fr
-//  sdddddddddddddddddddddddds   @Last modified by: adebray
-//  sdddddddddddddddddddddddds
-//  :ddddddddddhyyddddddddddd:   @Created: 2017-05-07T16:07:15+02:00
-//   odddddddd/`:-`sdddddddds    @Modified: 2017-05-09T19:26:49+02:00
-//    +ddddddh`+dh +dddddddo
-//     -sdddddh///sdddddds-
-//       .+ydddddddddhs/.
-//           .-::::-`
-
 #ifndef AUTOMATON_H
 #define AUTOMATON_H
 
 #include <iostream>
 #include <string>
+#include <map>
 #include <vector>
+#include <regex>
 
 #include <Color.h>
 
@@ -30,43 +18,40 @@ public:
 
 	virtual int operator()(std::string) = 0;
 	virtual std::string toString(void) = 0;
-	virtual void setString(std::string) = 0;
+	// virtual void setString(std::string) = 0;
 };
 
 class Automaton : public ACallable {
+private:
+	std::string	cmp;
+
 public:
-	class State : public ACallable {
+	Automaton(std::string);
+	~Automaton();
+
+	int			operator()(std::string);
+	std::string	toString();
+};
+
+class Parser : public ACallable {
+public:
+	class bad_rule : public std::runtime_error {
 	public:
-		std::string l;
-
-		int operator()(std::string w) {
-			return w == l;
-		};
-
-		State(std::string l) ;
-		virtual ~State();
-
-		std::string toString(void);
-		void setString(std::string);
+		bad_rule(const char* what_arg);
+		virtual ~bad_rule();
 	};
 
-	Automaton(std::string="unnamed");
-	virtual ~Automaton (void);
+	Parser(void);
+	Parser(std::string grammar_file);
+	virtual ~Parser();
 
-	std::string name;
+	void		load(std::string rule);
+	int			operator()(std::string line);
+	std::string	toString(void);
+private:
+	std::string acc;
 
-	ACallable * start;
-	ACallable * prev;
-	ACallable * current;
-
-	size_t index;
-	std::vector<ACallable *> states;
-	std::vector<ACallable *> accept_states;
-
-	int operator()(std::string);
-	ACallable * transition(std::string *, ACallable *);
-	std::string toString(void);
-	void setString(std::string s);
+	std::map<std::string, std::vector<Automaton *>> automatonMap;
 };
 
 #endif

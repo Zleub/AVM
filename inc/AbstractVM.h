@@ -1,17 +1,3 @@
-//           `--::-.`
-//       ./shddddddddhs+.
-//     :yddddddddddddddddy:
-//   `sdddddddddddddddddddds`
-//  /ddddy:oddddddddds:sddddd/   @By: Debray Arnaud <zleub> - adebray@student.42.fr
-//  sdddddddddddddddddddddddds   @Last modified by: adebray
-//  sdddddddddddddddddddddddds
-//  :ddddddddddhyyddddddddddd:   @Created: 2017-05-02T12:56:38+02:00
-//   odddddddd/`:-`sdddddddds    @Modified: 2017-05-03T17:57:16+02:00
-//    +ddddddh`+dh +dddddddo
-//     -sdddddh///sdddddds-
-//       .+ydddddddddhs/.
-//           .-::::-`
-
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -51,6 +37,7 @@ public:
 
 private:
 	Parser *parser;
+	// Automaton *automaton;
 
 	typedef IOperand const * (AbstractVM::*createPtr)( std::string const & value ) const;
 
