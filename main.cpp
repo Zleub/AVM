@@ -9,7 +9,7 @@ int main(int ac, char *av[])
 	(void)ac;
 	(void)av;
 
-	AbstractVM avm(av[1]);
+	AbstractVM avm(ac, av);
 
 	// Automaton a("Hello");
 

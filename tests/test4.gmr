@@ -1,0 +1,4 @@
+twelve                          := "1" "2" ;
+two hundColor::RED one                 := "2" "0" "1" ;
+three hundColor::RED twelve            := "3" twelve ;
+twelve thousand two hundColor::RED one := twelve two hundColor::RED one ;

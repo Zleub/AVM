@@ -3,27 +3,29 @@
 #include <sstream>
 #include <deque>
 
+#include <utils.h>
+#include <Color.h>
 #include <Operand.h>
 #include <Parser.h>
-
-enum operationEnum {
-	ADD,
-	SUB,
-	MUL,
-	DIV,
-	MOD
-};
+#include <Automaton.h>
 
 class AbstractVM : public std::deque<IOperand const *> {
-
 public:
+	enum Operation {
+		ADD,
+		SUB,
+		MUL,
+		DIV,
+		MOD
+	};
+
 	class stack_empty : public std::runtime_error {
 	public:
 		stack_empty(const char* what_arg);
 		virtual ~stack_empty();
 	};
 
-	AbstractVM(char *arg);
+	AbstractVM(int ac, char *arg[]);
 	virtual ~AbstractVM();
 
 	IOperand const * createOperand( eOperandType type, std::string const & value ) const;
@@ -31,9 +33,9 @@ public:
 	void push(IOperand const *);
 	IOperand const * pop(void);
 	void dump(void) const;
-	void do_operation(operationEnum op);
+	void do_operation(Operation op);
 
-	std::string const & toString( void ) const;
+	std::string toString( void ) const;
 
 private:
 	Parser *parser;

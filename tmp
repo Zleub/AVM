@@ -1,1 +1,0 @@
-INSTR := push VALUE | pop | dump | assert VALUE | add

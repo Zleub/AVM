@@ -1,43 +1,64 @@
-#include <Color.h>
 #include <AbstractVM.h>
-// #include <Automaton.h>
 
-AbstractVM::AbstractVM(char *arg) {
-	parser = new Parser();
+AbstractVM::AbstractVM(int ac, char *arg[]) {
+	struct s_opt opts = { false, false, 0, 0 };
+
+	for (int i = 0; i < ac; i++) {
+		std::string _arg(arg[i]);
+
+		if (_arg == "--grammar_file" || _arg == "-gmr")
+			opts.grammar_file = arg[i + 1];
+		else if (_arg == "--input_file" || _arg == "-in")
+			opts.input_file = arg[i + 1];
+		else if (_arg == "--no_input")
+			opts.no_input = true;
+		else if (_arg == "--debug")
+			opts.debug = true;
+	}
+
+	parser = new Parser(opts);
 	 // automaton = new Automaton("Hello");
 
-	(void)arg;
-	std::cout << "---- Parser ----" << std::endl << parser->toString() << std::endl;
+	if (opts.debug)
+		std::cout << "---- Parser ----" << std::endl << parser->toString() << std::endl;
 
-	if (arg) {
-		std::cout << "file: " << arg << std::endl;
+	if (opts.input_file) {
+		std::cout << "file: " << opts.input_file << std::endl;
 
 		std::string line;
-		std::ifstream f(arg);
+		std::ifstream f(opts.input_file);
 		if (f.is_open()) {
 			while (!f.eof()) {
 				getline(f, line);
-				(*parser)(line);
+				std::cout << (*parser)(line) << std::endl;
 			}
 			f.close();
 			if ( 0 != f.eof() ) {
-				std::cout << Color::start(GREEN) << "File done" << Color::end() << std::endl;
+				std::cout << Color::start(Color::GREEN) << "File done" << Color::end() << std::endl;
 			}
 		}
 		else {
-			std::cout << Color::start(RED) << "File error" << Color::end() << std::endl;
+			std::cout << Color::start(Color::YELLOW) << "File error" << Color::end() << std::endl;
+			std::cout << Color::start(Color::BLUE) << ">> " << Color::end() << opts.input_file << std::endl;
+			std::cout << ((*parser)(opts.input_file) ? "true" : "false") << std::endl;
 		}
 	}
 	else {
+		int ret = 1;
 		std::string s;
 
 		while (s != ";;") {
 			getline(std::cin, s);
-			// (*parser)(s);
+			std::cout << Color::start(Color::BLUE) << ">> " << Color::end() << s << std::endl;
+			ret = (*parser)(s);
+			std::cout << "[" << (ret ? "true" : "false") << "] " << s << std::endl;
 		}
 	}
 }
-AbstractVM::~AbstractVM() {}
+
+AbstractVM::~AbstractVM() {
+	delete parser;
+}
 
 IOperand const * AbstractVM::createOperand( eOperandType type, std::string const & value ) const {
 	return (this->*create_array[type])(value);
@@ -82,7 +103,7 @@ void AbstractVM::dump(void) const {
 	std::cout << toString();
 }
 
-std::string const & AbstractVM::toString(void) const {
+std::string AbstractVM::toString(void) const {
 	std::stringstream s;
 
 	s << "---- AbstractVM ----" << std::endl;
@@ -99,10 +120,10 @@ std::string const & AbstractVM::toString(void) const {
 		s << v->toString() << std::endl;
 	});
 
-	return *new std::string(s.str());
+	return s.str();
 }
 
-void AbstractVM::do_operation(operationEnum op) {
+void AbstractVM::do_operation(Operation op) {
 	try {
 		return (this->*operation_array[op])();
 	} catch (std::exception & e) {

@@ -9,17 +9,16 @@
 #include <vector>
 #include <map>
 
+#include <utils.h>
 #include <Color.h>
 
 class ACallable {
 public:
-	ACallable * truthy = NULL;
-	ACallable * falsy = NULL;
-
 	virtual ~ACallable(void) {};
 
 	virtual int operator()(std::string) = 0;
 	virtual std::string toString(void) = 0;
+	virtual std::string toString(int indent);
 	// virtual void setString(std::string) = 0;
 };
 
@@ -28,32 +27,15 @@ private:
 	std::string	cmp;
 
 public:
+	Automaton * truthy = NULL;
+	Automaton * falsy = NULL;
+
 	Automaton(std::string);
 	~Automaton();
 
 	int			operator()(std::string);
-	std::string	toString();
-};
-
-class Parser : public ACallable {
-public:
-	class bad_rule : public std::runtime_error {
-	public:
-		bad_rule(const char* what_arg);
-		virtual ~bad_rule();
-	};
-
-	Parser(void);
-	Parser(std::string grammar_file);
-	virtual ~Parser();
-
-	void		load(std::string rule);
-	int			operator()(std::string line);
 	std::string	toString(void);
-private:
-	std::string acc;
-
-	std::map<std::string, std::vector<Automaton *>> automatonMap;
+	std::string	toString(int indent);
 };
 
 #endif

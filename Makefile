@@ -9,7 +9,7 @@ SRC = $(shell find . -name "*.cpp")
 OBJ = $(subst .cpp,.o,$(SRC))
 
 CXX = clang++
-CXXFLAGS = -Iinc -Wall -Wextra -Werror -std=c++11 -g -fsanitize=address
+CXXFLAGS = -Iinc -Wall -Wextra -Werror -std=c++11 -fsanitize=address -g
 
 XX = $(shell echo test)
 
@@ -19,7 +19,7 @@ include .depend
 
 depend: $(SRC) main.cpp
 	@ rm -f ./.depend
-	@ $(foreach var, $^, $(CC) $(CXXFLAGS) -MT $(subst .cpp,.o,$(var)) -MM $(var) >> ./.depend;)
+	@ $(foreach var, $^, $(CXX) $(CXXFLAGS) -MT $(subst .cpp,.o,$(var)) -MM $(var) >> ./.depend;)
 
 %.o:%.cpp
 	@echo $<" -> "$@
@@ -37,6 +37,5 @@ fclean: clean
 	rm -rf $(NAME)
 
 re: fclean all
-
 
 .PHONY: all re clean fclean depend

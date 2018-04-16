@@ -18,19 +18,20 @@
 #include <string>
 #include <sstream>
 
-enum Colors {
-	DEFAULT,
-	RED,
-	GREEN,
-	YELLOW,
-	BLUE,
-	MAGENTA,
-	CYAN,
-	ORANGE = 202
-};
 
 class Color {
 public:
+	enum Colors {
+		DEFAULT,
+		RED,
+		GREEN,
+		YELLOW,
+		BLUE,
+		MAGENTA,
+		CYAN,
+		ORANGE = 202
+	};
+
 	Color();
 	~Color();
 
